@@ -1,10 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'AngularApp4';
+export class AppComponent implements OnInit {
+  //myForm:any[] = []
+  myForm!: FormGroup
+
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit(){
+    this.myForm = this.fb.group({
+      name: ['sdc', Validators.required],
+      email: ['sdd', [Validators.required, Validators.email]],
+      message: ['sdd', [Validators.required, Validators.minLength(15)]],
+    });
+  }
+
+  onSubmit(form: FormGroup) {
+    console.log('Valid?', form.valid);
+    console.log('Name:', form.value.name);
+    console.log('Email:', form.value.email);
+    console.log('Message:', form.value.message);
+  }
 }
